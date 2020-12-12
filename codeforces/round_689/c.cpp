@@ -4,7 +4,7 @@
 #include<string>
 using namespace std;
 
-#define int                long long int
+//#define int                long long int
 #define jaldichal          ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
 #define pb                 push_back
 #define mk                 make_pair
@@ -32,69 +32,38 @@ using namespace std;
 	* WRITE STUFF DOWN
 	* DON'T GET STUCK ON ONE APPROACH
 */
-map<int, int> ans;
-void recursive(int *a, int n, int l, int r, int *prefix_sum) {
-	if (l >= r) {
-		return;
-	}
-//	trace2(l, r);
-	int mid = (a[l] + a[r]) / 2;
-	int m = upper_bound(a, a + n, mid) - a;
-	// if (a[l] == a[r])
-	// 	return;
-	if (m > r || m < l)
-		return;
-	// if (m == l) {
-	// 	ans[a[l]]++;
-	// 	ans[prefix_sum[r] - prefix_sum[m]];
-	// 	return;
-	// }
-	if (l - 1 < 0) {
-		ans[prefix_sum[m - 1]]++;
-		ans[prefix_sum[r] - prefix_sum[m - 1]]++;
-	}
-	else {
-		ans[prefix_sum[m - 1] - prefix_sum[l - 1]]++;
-		ans[prefix_sum[r] - prefix_sum[m - 1]]++;
-	}
-
-	recursive(a, n, l, m - 1, prefix_sum);
-	recursive(a, n, m, r, prefix_sum);
-
-}
 
 void solve(int input)
 {
 	//read problem C if stuck on B for longer than 20 mins!!
 	int n;
 	cin >> n;
-	int b[n];
 	int a[n];
-	int q;
-	cin >> q;
-	for (int i = 0 ; i < n; i++) {
+	int m;
+	cin >> m;
+	int index = -1;
+	for (int  i = 0; i < n; i++) {
 		cin >> a[i];
-		b[i] = a[i];
-	}
-	sort(b, b + n);
-	int prefix_sum[n];
-	prefix_sum[0] = b[0];
-	for (int i = 1; i < n; i++) {
-		prefix_sum[i] = prefix_sum[i - 1] + b[i];
-	}
-	recursive(b, n, 0, n - 1, prefix_sum);
-	ans[prefix_sum[n - 1]]++;
-	while (q--)
-	{
-		int x;
-		cin >> x;
-		if (ans.find(x) != ans.end()) {
-			cout << "Yes" << line;
+		if (a[i] != i + 1) {
+			index = i + 1;
 		}
-		else
-			cout << "No" << line;
 	}
-	ans.clear();
+	long double ans = 0;
+	long double change = 1;
+	for (int i = 0 ; i < m; i++) {
+		long double x, y;
+		cin >> x >> y;
+		if (x >= index) {
+			ans += y * change;
+			change = change * (1 - y);
+		}
+	}
+	if (index == -1) {
+		cout << "1" << line; R;
+	}
+	cout << setprecision(15) << ans << line;
+
+
 }
 
 signed main()
