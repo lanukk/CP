@@ -39,40 +39,14 @@ void solve(int input)
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
-	cin >> n;
-	vector<pair<int, int> > v;
-	v.reserve(n);
-	int x, y;
-	for (int i = 0 ; i < n; i++) {
-		cin >> x >> y;
-		v.pb({x, y});
-	}
-	int ans = INT_MAX;
-	sort(all(v));
-	int a[n];
-	map<int, int> mp;
-	for (int i = 0; i < n; i++) {
-		a[i] = v[i].fi;
-		mp[v[i].se]++;
-	}
-	// for (auto x : mp) {
-	// 	cout << x.fi << space << x.se << line;
-	// }
-	for (int i = 0 ; i < n; i++) {
-		int index = upper_bound(a, a + n, v[i].se) - a;
-		int m = index - 1;
-		int l = m - i + 1 + mp[a[i]];
-		ans = min(ans, n - l);
-		// cout << line;
-	}
-	cout << ans << line;
+
 }
 
 signed main()
 {
 	jaldichal
 	int x = 1;
-	cin >> x;
+	//cin>>x;
 	for (int i = 1; i <= x; i++)
 		solve(i);
 	return 0;
