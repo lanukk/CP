@@ -31,39 +31,30 @@ using namespace std;
 	* try solving problem C instead of B.
 	* WRITE STUFF DOWN
 	* DON'T GET STUCK ON ONE APPROACH
-	* Never Think of BINARY SEARCH (NEVER EVER)
 */
 
 void solve(int input)
 {
-	// read problem C if stuck on B for longer than 20 mins!!
-	// Never Think of BINARY SEARCH (NEVER EVER)
+	//read problem C if stuck on B for longer than 20 mins!!
 	int n;
 	cin >> n;
 	vector<pair<int, int> > v;
 	v.reserve(n);
-	int x, y;
+	int l[n], r[n];
 	for (int i = 0 ; i < n; i++) {
-		cin >> x >> y;
-		v.pb({x, y});
+		cin >> l[i] >> r[i];
+		v.pb({l[i], r[i]});
 	}
+	sort(l, l + n);
+	sort(r, r + n);
+	tracearray(l, n);
+	tracearray(r, n);
 	int ans = INT_MAX;
-	sort(all(v));
-	int a[n];
-	map<int, int> mp;
 	for (int i = 0; i < n; i++) {
-		a[i] = v[i].fi;
-		mp[v[i].se]++;
-	}
-	// for (auto x : mp) {
-	// 	cout << x.fi << space << x.se << line;
-	// }
-	for (int i = 0 ; i < n; i++) {
-		int index = upper_bound(a, a + n, v[i].se) - a;
-		int m = index - 1;
-		int l = m - i + 1 + mp[a[i]];
-		ans = min(ans, n - l);
-		// cout << line;
+		int left  = lower_bound(r, r + n, v[i].fi) - r;
+		int right = lower_bound(l, l + n, v[i].se) - l;
+		trace2(left, right);
+		ans = min(ans, left + right);
 	}
 	cout << ans << line;
 }

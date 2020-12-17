@@ -1,1 +1,8 @@
-1
+Values in array: 1 2 3 3 4 
+Values in array: 4 5 5 8 8 
+>left:0 | right:5
+>left:0 | right:4
+>left:0 | right:5
+>left:0 | right:5
+>left:0 | right:5
+4
