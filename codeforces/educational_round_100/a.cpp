@@ -31,22 +31,13 @@ using namespace std;
 	* try solving problem C instead of B.
 	* WRITE STUFF DOWN
 	* DON'T GET STUCK ON ONE APPROACH
-	* Never Think of BINARY SEARCH (NEVER EVER)
 */
 
 void solve(int input)
 {
-	// read problem C if stuck on B for longer than 20 mins!!
-	// Never Think of BINARY SEARCH (NEVER EVER)
+	//read problem C if stuck on B for longer than 20 mins!!
 	int n;
-	int a[3];
-	n = 3;
-	for (int i = 0; i < n; i++) {
-		cin >> a[i];
-	}
-	sort(a, a + n);
-	int sub = (a[2] - 1);
-
+	tuple<int> t;
 
 }
 
