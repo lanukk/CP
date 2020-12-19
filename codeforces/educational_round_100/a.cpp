@@ -4,7 +4,7 @@
 #include<string>
 using namespace std;
 
-//#define int                long long int
+#define int                long long int
 #define jaldichal          ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
 #define pb                 push_back
 #define mk                 make_pair
@@ -39,22 +39,19 @@ void solve(int input)
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
-	int a[3];
-	n = 3;
-	for (int i = 0; i < n; i++) {
-		cin >> a[i];
+	int a, b, c;
+	cin >> a >> b >> c;
+	if ((a + b + c) % 9 == 0 && min(a, min(b, c)) >= (a + b + c) / 9) {
+		cout << "Yes" << line; R;
 	}
-	sort(a, a + n);
-	int sub = (a[2] - 1);
-
-
+	cout << "No" << line; R;
 }
 
 signed main()
 {
 	jaldichal
 	int x = 1;
-	//cin>>x;
+	cin >> x;
 	for (int i = 1; i <= x; i++)
 		solve(i);
 	return 0;
