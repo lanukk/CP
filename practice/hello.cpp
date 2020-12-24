@@ -4,7 +4,6 @@
 #include<string>
 using namespace std;
 
-//#define int                long long int
 #define pb                 push_back
 #define mk                 make_pair
 #define R                  return
@@ -17,6 +16,8 @@ using namespace std;
 #define fi                 first
 #define se                 second
 #define print(i,ans)       cout<<"Case #"<<i<<": "<<ans<<line
+#define f(a,b,c)           for(int i = a; i < b ;i+=c)
+#define fr(a,b,c)          for(int i = a; i >=b ; i = i - c)
 
 //trace
 #define tracegraph(v) 	   cout<<#v<<line;int iiii=1;for(auto &x : v){cout<<iiii<<"-> ";for(auto &xx : x)cout<<xx<<" ";cout<<endl;iiii++;}cout<<"---------------"<<line;
@@ -34,6 +35,8 @@ using namespace std;
 //pair input
 template<typename T1, typename T2> istream& operator>>(istream &istream, pair<T1, T2> &p) {istream >> p.first >> p.second; return istream; }
 template<typename T1, typename T2> ostream& operator<<(ostream &ostream, const pair<T1, T2> &p) {ostream << p.first << " " << p.second; return ostream; }
+//vector operations
+template<typename T> istream& operator>>(istream &istream, vector<T> &v) {for (auto &it : v) cin >> it; return istream; }
 template<typename T> ostream& operator<<(ostream &ostream, const vector<T> &c) {for (auto &it : c) cout << it << " "; return ostream; }
 //max minn
 template <typename T> T MIN(T first) { return first; } template <typename T, typename... Args> T MIN(T first, Args... args) { return min(first, MIN(args...)); }
@@ -47,11 +50,38 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 	* Never Think of BINARY SEARCH (NEVER EVER)
 */
 
+V<V<int> > adj;
+#define int                long long int
+
+
 void solve(int input)
 {
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
+	cin >> n;
+	int m;
+	int dp[n];
+	int a[n];
+	cin >> m;
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+	}
+	int sum = 0;
+	sort(a, a + n);
+	for (int i = 0; i < n; i++) {
+		sum += a[i];
+		//trace(sum);
+		if (i  <= m - 1 ) {
+			dp[i] = sum;
+		}
+		else {
+			dp[i] = sum + dp[i - m];
+		}
+	}
+	for (int i = 0 ; i < n; i++) {
+		cout << dp[i] << space;
+	}
 }
 
 signed main()
