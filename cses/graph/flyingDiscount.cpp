@@ -50,72 +50,48 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 	* Never Think of BINARY SEARCH (NEVER EVER)
 */
 
-V<V<int> > adj;
+V<V<pair<int, int> > > adj;
 #define int                long long int
-struct node {
-	int a, b, cost;
-};
-V<bool> visited;
-void dfs(int v) {
-	visited[v] = 1;
-	for (auto x : adj[v]) {
-		if (visited[x] == 0) {
-			dfs(x);
+int n;
+int dijstra() {
+	V<int> distance;
+	distance.assign(n + 1, LLONG_MAX);
+	distance[1] = 0 ;
+	set<pair<int, pair<int, bool> > > s;
+	s.insert({0, {1, 0}});
+	while (!s.empty()) {
+		pair<int, pair<int, bool> > p = *s.begin();
+		s.erase(s.begin());
+		int v = p.se.fi;
+		bool used = p.se.se;
+
+		for (auto x : adj[v]) {
+			//either i can use or not
+			//to not use
+			if (distance[x.fi] > distance[v] + x.se) {
+				if (s.find({distance[x.fi], {x.fi, 0}}) != s.end()) {
+					s.erase({distance[x.fi], {x.fi, 0}});
+				}
+			}
 		}
+
 	}
 }
+
 void solve(int input)
 {
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
-	int n;
-	//bellmannnnnnnnnnnn
 	cin >> n;
+	adj.resize(n + 1);
 	int m;
 	cin >> m;
-	V<int> distance(n + 1, LLONG_MAX);
-	adj.resize(n + 1);
-	V<node> e;
-	e.reserve(m);
-	for (int i = 0; i < m; i++) {
-		node z;
-		cin >> z.a >> z.b >> z.cost;
-		adj[z.a].pb(z.b);
-		z.cost *= -1;
-		e.push_back(z);
+	for (int i = 0 ; i < m; i++) {
+		int x, y, z;
+		cin >> x >> y >> z;
+		adj[x].pb({y, z});
 	}
-	distance[1] = 0;
-	for (int i = 0; i < n - 1; i++) {
-		for (int j = 0 ; j < m; j++) {
-			if (distance[e[j].a] < LLONG_MAX) {
-				if (distance[e[j].b] > distance[e[j].a] + e[j].cost) {
-					distance[e[j].b] = distance[e[j].a] + e[j].cost;
-				}
-			}
-		}
-	}
-	V<int> check;
-
-	for (int j = 0 ; j < m; j++) {
-		if (distance[e[j].a] < LLONG_MAX) {
-			if (distance[e[j].b] > distance[e[j].a] + e[j].cost) {
-				//distance[e[j].b] = distance[e[j].a] + e[j].cost;
-				check.pb(e[j].b);
-			}
-		}
-	}
-
-	visited.assign(n + 1, 0);
-	for (auto x : check) {
-		if (visited[x] == 0) {
-			dfs(x);
-		}
-	}
-	if (visited[n] == 1) {
-		cout << "-1"; R;
-	}
-
-	cout << distance[n] * -1;
+	cout << dijstra();
 }
 
 signed main()
