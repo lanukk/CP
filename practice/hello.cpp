@@ -51,8 +51,26 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 */
 
 V<V<int> > adj;
-#define int                long long int
+//#define int                long long int
 
+vector < vector<int> > g, gr;
+vector<bool> used;
+vector<int> order, component;
+void dfs1 (int v) {
+	used[v] = true;
+	for (size_t i = 0; i < g[v].size(); ++i)
+		if (!used[ g[v][i] ])
+			dfs1 (g[v][i]);
+	order.push_back (v);
+}
+
+void dfs2 (int v) {
+	used[v] = true;
+	component.push_back (v);
+	for (size_t i = 0; i < gr[v].size(); ++i)
+		if (!used[ gr[v][i] ])
+			dfs2 (gr[v][i]);
+}
 
 void solve(int input)
 {
@@ -61,27 +79,33 @@ void solve(int input)
 	int n;
 	cin >> n;
 	int m;
-	int dp[n];
-	int a[n];
 	cin >> m;
-	for (int i = 0; i < n; i++) {
-		cin >> a[i];
+	g.resize(n);
+	gr.resize(n + 1);
+	for (int i = 0; i < m; i++) {
+		int a, b;
+		cin >> a >> b;
+		a--; b--;
+		//	... reading next edge (a, b) ...
+		g[a].push_back (b);
+		gr[b].push_back (a);
 	}
-	int sum = 0;
-	sort(a, a + n);
-	for (int i = 0; i < n; i++) {
-		sum += a[i];
-		//trace(sum);
-		if (i  <= m - 1 ) {
-			dp[i] = sum;
-		}
-		else {
-			dp[i] = sum + dp[i - m];
-		}
-	}
-	for (int i = 0 ; i < n; i++) {
-		cout << dp[i] << space;
-	}
+
+	// used.assign (n, false);
+	// for (int i = 0; i < n; ++i)
+	// 	if (!used[i])
+	// 		dfs1 (i);
+	// used.assign (n, false);
+	// for (int i = 0; i < n; ++i) {
+	// 	int v = order[n - 1 - i];
+	// 	if (!used[v]) {
+	// 		dfs2 (v);
+	// 		//	... printing next component ...
+	// 		component.clear();
+	// 	}
+	// }
+
+
 }
 
 signed main()
