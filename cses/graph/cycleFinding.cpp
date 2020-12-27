@@ -20,7 +20,7 @@ using namespace std;
 #define fr(a,b,c)          for(int i = a; i >=b ; i = i - c)
 
 //trace
-#define tracegraph(v) 	   cout<<#v<<line;int iiii=1;for(auto &x : v){cout<<iiii<<"-> ";for(auto &xx : x)cout<<xx<<" ";cout<<endl;iiii++;}cout<<"---------------"<<line;
+#define tracegraph(v) 	   cout<<#v<<line;int iiii=0;for(auto &x : v){cout<<iiii<<"-> ";for(auto &xx : x)cout<<xx<<" ";cout<<endl;iiii++;}cout<<"---------------"<<line;
 #define traceset(s)        cout<<#s<<line;for(auto &x: s)cout<<x<<space;cout<<"---------------"<<line;
 #define tracevector(v)     cout<<#v<<line;for(auto &x: v)cout<<x<<" ";cout<<line;cout<<"---------------"<<line;
 #define tracemap(mp)       cout<<#mp<<line;for(auto &x: mp){cout<<x.fi<<" "<<x.se<<line;}cout<<"---------------"<<line;
@@ -49,13 +49,56 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 	* DON'T GET STUCK ON ONE APPROACH
 	* Never Think of BINARY SEARCH (NEVER EVER)
 */
-
-V<V<int> > adj;
 #define int                long long int
-
-struct node {
+struct edge {
 	int a, b, cost;
 };
+
+V<V<pair<int, int> > > adj;
+V<edge> e; V<int> d;
+
+
+const int mod = LLONG_MAX;
+V<int> order;
+V<int> visited;
+
+
+
+void dfs(int v) {
+	visited[v] = 1;
+	for (pair<int, int> p : adj[v]) {
+		if (!visited[p.fi])dfs(p.fi);
+	}
+	order.pb(v);
+}
+V<int> parent;
+V<int> ans;
+
+bool z = 0;
+void dfs2(int v) {
+	visited[v] = 1;
+	if (z)return;
+	for (pair<int, int> x : adj[v]) {
+		int p = x.fi;
+		if (z)return;
+		if (visited[p] == 1) {
+			z = 1;
+			int curr = v;
+			ans.pb(p);
+			while (curr != -1) {
+				ans.pb(curr);
+				curr = parent[curr];
+			}
+			return;
+		} if (z)return;
+		if ( visited[p] == 0)
+		{
+			parent[p] = v;
+			dfs2(p);
+		}
+	}
+	visited[v]  = 2;
+}
 
 void solve(int input)
 {
@@ -63,19 +106,60 @@ void solve(int input)
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
 	cin >> n;
-	adj.resize(n + 1);
 	int m;
 	cin >> m;
-	V<node> e;
-	for (int i = 0 ; i < m; i++) {
-		node z ;
-		cin >> z.a >> z.b >> z.cost;
-		adj[z.a].pb(z.b);
-		e.pb(z);
+	adj.resize(n + 1);
+	e.reserve(m);
+	for (int i = 0; i < m; i++) {
+		edge x;
+		cin >> x.a >> x.b >> x.cost;
+		e.pb(x);
+		adj[x.a].pb({x.b, x.cost});
 	}
-	V<int> distance(n + 1, LLONG_MAX);
-	distance[1] = 0;
+	visited.assign(n + 1, 0);
+	for (int i = 1 ; i <= n; i++) {
+		if (!visited[i])dfs(i);
+	}
+	int s = order[order.size() - 1];
 
+	d.assign(n + 1, mod);
+	d[s] = 0;
+	for (int i = 0; i < n - 1; i++) {
+		for (int j = 0 ; j < m; j++) {
+			if (d[e[j].a] < mod) {
+				if (d[e[j].b] > d[e[j].a] + e[j].cost) {
+					d[e[j].b] = d[e[j].a] + e[j].cost;
+				}
+			}
+		}
+	}
+	tracegraph(adj);
+	//cout << order << line;
+	V<int> check;
+
+	for (int j = 0 ; j < m; j++) {
+		if (d[e[j].a] < mod) {
+			if (d[e[j].b] > d[e[j].a] + e[j].cost) {
+				//d[e[j].b] = d[e[j].a] + e[j].cost;
+				check.pb(e[j].b);
+			}
+		}
+	}
+	if (check.size() == 0) {
+		cout << "NO"; R;
+	} parent.assign(n + 1, 0);
+	visited.assign(n + 1, 0);
+	for (int X : check) {
+		if (z)break;
+		if (!visited[X]) {
+			parent[X] = -1;
+			dfs2(X);
+		}
+	}
+	cout << check << line;
+	reverse(all(ans));
+	cout << "YES";
+	cout << line << ans;
 }
 
 signed main()

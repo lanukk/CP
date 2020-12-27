@@ -104,18 +104,19 @@ void solve(int input)
 			}
 		}
 	}
+	cout << check;
 
-	visited.assign(n + 1, 0);
-	for (auto x : check) {
-		if (visited[x] == 0) {
-			dfs(x);
-		}
-	}
-	if (visited[n] == 1) {
-		cout << "-1"; R;
-	}
+	// visited.assign(n + 1, 0);
+	// for (auto x : check) {
+	// 	if (visited[x] == 0) {
+	// 		dfs(x);
+	// 	}
+	// }
+	// if (visited[n] == 1) {
+	// 	cout << "-1"; R;
+	// }
 
-	cout << distance[n] * -1;
+	// cout << distance[n] * -1;
 }
 
 signed main()
