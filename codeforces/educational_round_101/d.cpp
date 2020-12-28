@@ -59,25 +59,7 @@ void solve(int input)
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
-	cin >> n;
-	int start[n], end[n];
-	V<pair<int, int> > segments(n);
-	for (int i = 0; i < n; i++) {
-		cin >> start[i] >> end[i];
-		segments[i] = {start[i], end[i]};
-	}
-	sort(start, start + n);
-	sort(end, end + n);
-	int ans = INT_MAX;
-	for (int i = 0 ; i < n; i++) {
-		int it1 = upper_bound(end, end + n, segments[i].fi - 1) - end;
-		int it2 = upper_bound(start, start + n, segments[i].se) - start;
-		int s1 = it1 ;
-		int s2 = n - it2;
-		trace3(s1, s2, n - (s1 + s2));
-		ans = min(ans,  (s1 + s2));
-	}
-	cout << n - ans << line;
+
 
 }
 
@@ -86,7 +68,7 @@ signed main()
 	ios_base::sync_with_stdio(false);
 	cin.tie(0); cout.tie(0);
 	int x = 1;
-	//cin >> x;
+	//cin>>x;
 	for (int i = 1; i <= x; i++)
 		solve(i);
 	return 0;

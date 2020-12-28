@@ -51,7 +51,7 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 */
 
 V<V<int> > adj;
-//#define int                long long int
+#define int                long long int
 
 
 void solve(int input)
@@ -60,25 +60,78 @@ void solve(int input)
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
 	cin >> n;
-	int start[n], end[n];
-	V<pair<int, int> > segments(n);
-	for (int i = 0; i < n; i++) {
-		cin >> start[i] >> end[i];
-		segments[i] = {start[i], end[i]};
-	}
-	sort(start, start + n);
-	sort(end, end + n);
-	int ans = INT_MAX;
+	int k;
+	cin >> k;
+	int highest_peak = 0;
+	int p = - 1;
+	int h[n];
 	for (int i = 0 ; i < n; i++) {
-		int it1 = upper_bound(end, end + n, segments[i].fi - 1) - end;
-		int it2 = upper_bound(start, start + n, segments[i].se) - start;
-		int s1 = it1 ;
-		int s2 = n - it2;
-		trace3(s1, s2, n - (s1 + s2));
-		ans = min(ans,  (s1 + s2));
+		cin >> h[i];
+		if (h[i] > highest_peak) {
+			highest_peak = h[i];
+			p = i;
+		}
 	}
-	cout << n - ans << line;
-
+	if (p == -1) {
+		cout << "YES" << line; R;
+	}
+	int low = h[p], high = h[p] + k;
+	bool possible = 1;
+	int z = p;
+	p--; //trace2(high, low);
+	while (p > 0) {
+		if (h[p] + k > low) {
+			low = h[p];
+			high = h[p] + k;
+		}
+		else {
+			high = low + 1;
+			low = high - k ;
+			if (low > h[p] + k - 1) {
+				possible = 0;
+			}
+		}
+		if (high < 0 || low < 0) {
+			possible = 0 ;
+		}
+		//trace2(high, low);
+		p--;
+	}
+	if (h[0] + k <= low) {
+		possible = 0 ;
+	}
+	p = z;
+	low = h[p];
+	high = h[p] + k;
+	p++; //trace2(high, low);
+	//cout << p << line;
+	while (p <= n - 2) {
+		if (h[p] + k > low) {
+			low = h[p];
+			high = h[p] + k;
+		}
+		else {
+			high = low + 1;
+			low = high - k ;
+			if (low > h[p] + k - 1) {
+				possible = 0;
+			}
+		}
+		if (high < 0 || low < 0) {
+			possible = 0 ;
+		}
+		//trace2(high, low);
+		p++;
+	}
+	if (h[n - 1] + k <= low) {
+		possible = 0 ;
+	}
+	if (possible) {
+		cout << "YES" << line;;
+	}
+	else {
+		cout << "NO" << line;
+	}
 }
 
 signed main()
@@ -86,7 +139,7 @@ signed main()
 	ios_base::sync_with_stdio(false);
 	cin.tie(0); cout.tie(0);
 	int x = 1;
-	//cin >> x;
+	cin >> x;
 	for (int i = 1; i <= x; i++)
 		solve(i);
 	return 0;

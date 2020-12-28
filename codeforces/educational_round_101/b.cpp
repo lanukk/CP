@@ -53,31 +53,47 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 V<V<int> > adj;
 //#define int                long long int
 
+int dp[110][110];
+int recursion(int a[], int n, int b[], int m, int i, int j) {
+	if (i == n && j == m) {
+		return 0;
+	}
+	if (dp[i][j] != -1) {
+		return dp[i][j];
+	}
+	// cout << "?" << line;
+	if (i == n) {
+		return dp[i][j] = max(0, b[j] + recursion(a, n, b, m, i, j + 1));
+	}
+	if (j == m) {
+		return dp[i][j] = max(0, a[i] + recursion(a, n, b, m, i + 1, j));
+	}
+
+	return dp[i][j] = MAX(0, a[i] + recursion(a, n, b, m, i + 1, j), b[j] + recursion(a, n, b, m, i, j + 1));
+}
 
 void solve(int input)
 {
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
+
+	memset(dp, -1, sizeof(dp));
 	int n;
 	cin >> n;
-	int start[n], end[n];
-	V<pair<int, int> > segments(n);
+	int a[n];
 	for (int i = 0; i < n; i++) {
-		cin >> start[i] >> end[i];
-		segments[i] = {start[i], end[i]};
+		cin >> a[i];
 	}
-	sort(start, start + n);
-	sort(end, end + n);
-	int ans = INT_MAX;
-	for (int i = 0 ; i < n; i++) {
-		int it1 = upper_bound(end, end + n, segments[i].fi - 1) - end;
-		int it2 = upper_bound(start, start + n, segments[i].se) - start;
-		int s1 = it1 ;
-		int s2 = n - it2;
-		trace3(s1, s2, n - (s1 + s2));
-		ans = min(ans,  (s1 + s2));
+	int m;
+	cin >> m;
+	int b[m];
+	for (int i = 0 ; i < m; i++) {
+		cin >> b[i];
 	}
-	cout << n - ans << line;
+	// tracearray(a, n);
+	// tracearray(b, m);
+	int ans = max(0, recursion(a, n, b, m, 0, 0));
+	cout << ans << line;
 
 }
 
@@ -86,7 +102,7 @@ signed main()
 	ios_base::sync_with_stdio(false);
 	cin.tie(0); cout.tie(0);
 	int x = 1;
-	//cin >> x;
+	cin >> x;
 	for (int i = 1; i <= x; i++)
 		solve(i);
 	return 0;
