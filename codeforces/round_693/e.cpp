@@ -60,8 +60,25 @@ void solve(int input)
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
 	cin >> n;
-	int a[n];
-	for (int i = 0; i < n; i++)cin >> a[i];
+	vector<pair<int, int> > v(n);
+	cin >> v;
+	for (int i = 0 ; i < n; i++) {
+		bool found = 0;
+		for (int j = 0; j < n; j++) {
+			if (v[j].se < v[i].se && v[j].fi < v[i].fi) {
+				cout << j + 1 << " ";
+				found = 1;
+				break;
+			}
+			if (v[j].se < v[i].fi && v[j].fi < v[i].se) {
+				cout << j + 1 << " ";
+				found = 1;
+				break;
+			}
+		}
+		if (!found)cout << "-1 ";
+	}
+	cout << "\n";
 }
 
 signed main()
@@ -69,7 +86,7 @@ signed main()
 	ios_base::sync_with_stdio(false);
 	cin.tie(0); cout.tie(0);
 	int x = 1;
-	//cin>>x;
+	cin >> x;
 	for (int i = 1; i <= x; i++)
 		solve(i);
 	return 0;

@@ -51,7 +51,7 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 */
 
 V<V<int> > adj;
-//#define int                long long int
+#define int                long long int
 
 
 void solve(int input)
@@ -59,9 +59,16 @@ void solve(int input)
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
-	cin >> n;
-	int a[n];
-	for (int i = 0; i < n; i++)cin >> a[i];
+	int a, b;
+	cin >> a >> b >> n;
+	int l = a, r = b;
+	while (a % 2 == 0)a /= 2;
+	while (b % 2 == 0)b /= 2;
+	int q = (l * r) / (a * b);
+	if (q >= n)cout << "YES" << line;
+	else
+		cout << "NO" << line;
+
 }
 
 signed main()
@@ -69,7 +76,7 @@ signed main()
 	ios_base::sync_with_stdio(false);
 	cin.tie(0); cout.tie(0);
 	int x = 1;
-	//cin>>x;
+	cin >> x;
 	for (int i = 1; i <= x; i++)
 		solve(i);
 	return 0;

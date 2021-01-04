@@ -51,7 +51,7 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 */
 
 V<V<int> > adj;
-//#define int                long long int
+#define int                long long int
 
 
 void solve(int input)
@@ -60,8 +60,32 @@ void solve(int input)
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
 	cin >> n;
-	int a[n];
-	for (int i = 0; i < n; i++)cin >> a[i];
+	int *a = new int [n];
+	int sum = 0;
+	int count1 = 0;
+	for (int  i = 0 ; i < n; i++) {
+		cin >> a[i];
+		sum += a[i];
+		if (a[i] == 1) {
+			count1++;
+		}
+	}
+	if (sum % 2 == 1) {
+		cout << "NO" << line; R;
+	}
+	int r = (sum / 2);
+	if (r % 2 == 1) {
+		if (count1 != 0 && count1 % 2 == 0) {
+			cout << "YES" << line; R;
+		}
+		else {
+			cout << "NO" << line; R;
+		}
+	}
+	else {
+		cout << "YES" << line; R;
+	}
+
 }
 
 signed main()
@@ -69,7 +93,7 @@ signed main()
 	ios_base::sync_with_stdio(false);
 	cin.tie(0); cout.tie(0);
 	int x = 1;
-	//cin>>x;
+	cin >> x;
 	for (int i = 1; i <= x; i++)
 		solve(i);
 	return 0;

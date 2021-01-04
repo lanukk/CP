@@ -51,17 +51,36 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 */
 
 V<V<int> > adj;
-//#define int                long long int
+#define int                long long int
 
+int n;
+int *a;
 
+int dp[200001];
+
+int recursion(int i) {
+	if (i >= n) {
+		return 0;
+	}
+	if (dp[i] != -1)
+		return dp[i];
+	return dp[i] = a[i] + recursion(i + a[i]);
+}
 void solve(int input)
 {
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
-	int n;
 	cin >> n;
-	int a[n];
+	a = new int[n];
 	for (int i = 0; i < n; i++)cin >> a[i];
+	int ans = 0;
+	memset(dp, -1, sizeof(dp));
+	for (int i = 0; i  < n; i++) {
+		ans = max(ans, recursion(i));
+	}
+
+	cout << ans << line;
+
 }
 
 signed main()
@@ -69,7 +88,7 @@ signed main()
 	ios_base::sync_with_stdio(false);
 	cin.tie(0); cout.tie(0);
 	int x = 1;
-	//cin>>x;
+	cin >> x;
 	for (int i = 1; i <= x; i++)
 		solve(i);
 	return 0;

@@ -52,7 +52,40 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 
 V<V<int> > adj;
 //#define int                long long int
+V<int> d;
+const int INF = 1e9;
+V<int> visited;
 
+void dfs(int v, int parent) {
+	visited[v] = 1;
+	for (int x : adj[v]) {
+		d[x] = min(d[x], d[v] + 1);
+		if (visited[x] == 0) {
+			dfs(x, v);
+		}
+	}
+}
+
+int dp[200005][2];
+
+int recursion(int v, bool k) {
+	if (adj[v].size() == 0) {
+		return d[v];
+	}
+	if (dp[v][k] != -1) {
+		return dp[v][k];
+	}
+	int count = INF;
+	for (int x : adj[v]) {
+		if (d[v] < d[x]) {
+			count = min(count, recursion(x, k));
+		}
+		if (!k && d[v] >= d[x]) {
+			count = min(count, recursion(x, 1));
+		}
+	}
+	return dp[v][k] = count;
+}
 
 void solve(int input)
 {
@@ -60,8 +93,27 @@ void solve(int input)
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
 	cin >> n;
-	int a[n];
-	for (int i = 0; i < n; i++)cin >> a[i];
+	adj.resize(n + 1);
+	d.assign(n + 1, INF);
+	visited.assign(n + 1, 0);
+	int m;
+	cin >> m;
+
+	for (int i = 0; i < m; i++) {
+		int x, y;
+		cin >> x >> y;
+
+		adj[x].pb(y);
+	}
+
+	d[1] = 0;
+	dfs(1, -1);
+	cout << "0 ";
+	visited.assign(n + 1, 0);
+	memset(dp, -1, sizeof(dp));
+	for (int i = 2; i <= n; i++) {
+		cout << recursion(i, 0) << " ";
+	}
 }
 
 signed main()
