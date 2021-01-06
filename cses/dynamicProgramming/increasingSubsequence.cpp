@@ -2,33 +2,20 @@
 using namespace std;
 
 int n;
-int *a;
-
-int dp[200011];
-int recursion(int i) {
-	if (i == n) {
-		return 0;
-	}
-	if (dp[i] != -1) {
-		return dp[i];
-	}
-	int count = 1;
-	for (int j = i + 1; j < n; j++) {
-		if (a[j] > a[i]) {
-			count = max(count, 1 + recursion(j));
-		}
-	}
-	return dp[i] = count;
-}
+vector<int> dp;
 
 int main() {
 	cin >> n;
-	a = new int[n];
-	for (int i = 0; i < n; i++)cin >> a[i];
-	memset(dp, -1, sizeof(dp));
-	int ans = 0;
 	for (int i = 0; i < n; i++) {
-		ans = max(ans, recursion(i));
+		int x;
+		cin >> x;
+		int index = lower_bound(dp.begin(), dp.end(), x) - dp.begin();
+		if (index == dp.size()) {
+			dp.push_back(x);
+		}
+		else {
+			dp[index] = x;
+		}
 	}
-	cout << ans;
+	cout << dp.size();
 }
