@@ -53,32 +53,80 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 V<V<int> > adj;
 //#define int                long long int
 
+struct node {
+	int h, w, index;
+};
 
+
+bool comp(node a, node b) {
+	return a.h < b.h;
+}
+
+bool comp2(node a, node b) {
+	return a.w < b.w;
+}
 void solve(int input)
 {
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
 	cin >> n;
-	vector<pair<int, int> > v(n);
-	cin >> v;
-	for (int i = 0 ; i < n; i++) {
-		bool found = 0;
-		for (int j = 0; j < n; j++) {
-			if (v[j].se < v[i].se && v[j].fi < v[i].fi) {
-				cout << j + 1 << " ";
-				found = 1;
-				break;
-			}
-			if (v[j].se < v[i].fi && v[j].fi < v[i].se) {
-				cout << j + 1 << " ";
-				found = 1;
-				break;
-			}
-		}
-		if (!found)cout << "-1 ";
+	node v[n];
+	node b[n];
+	for (int i = 0; i < n; i++) {
+		cin >> v[i].h >> v[i].w;
+		v[i].index = i;
+		b[i].h = v[i].h;
+		b[i].w = v[i].w;
+		b[i].index = v[i].index;
 	}
-	cout << "\n";
+
+	sort(v, v + n, comp);
+	sort(b, b + n, comp2);
+
+
+	V<pair<int, int> > prefix(n);
+	int minn = INT_MAX;
+	int inn = -1;
+	for (int i = 0; i < n; i++) {
+		if (v[i].w < minn) {
+			minn = v[i].w;
+			inn = i;
+		}
+		prefix[i] = {minn, inn};
+	}
+	V<int> ans(n);
+	ans[v[0].index] = -1;
+	for (int i = 1; i < n; i++) {
+		if (prefix[i - 1].fi < v[i].w &&  v[prefix[i - 1].se].h < v[i].h) {
+			ans[v[i].index] = v[prefix[i - 1].se].index + 1;
+		}
+		else
+			ans[v[i].index] = -1;
+	}
+	minn = INT_MAX;
+	inn = -1;
+
+	for (int i = 0; i < n; i++) {
+		if (b[i].h < minn) {
+			minn = b[i].h;
+			inn = i;
+		}
+		prefix[i] = {minn, i};
+	}
+	ans[b[0].index] = -1;
+	for (int i = 1; i < n; i++) {
+		if (ans[v[i].index] != -1)continue;
+		if (prefix[i - 1].fi < b[i].w && b[prefix[i - 1].se].w < b[i].h) {
+			ans[b[i].index] = b[prefix[i - 1].se].index + 1;
+		}
+		else
+			ans[b[i].index]  = - 1;
+	}
+
+	cout << ans << line;
+
+
 }
 
 signed main()

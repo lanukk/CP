@@ -51,65 +51,48 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 */
 
 V<V<int> > adj;
-V<int> d;
-//#define int                long long int
-const int INF = 1e9;
+#define int                long long int
 
-int dp[200010][2];
-
-int recursion(int v, bool k) {
-	//cout << v << line;
-	if (adj[v].size() == 0)
-		return d[v];
-	if (v == 1)
-		return 0;
-	int r = d[v];
-	if (dp[v][k] != -1)return dp[v][k];
-	for (int x : adj[v]) {
-		if (d[x] > d[v])
-			r = min(r, recursion(x, k));
-		if (d[x] <= d[v] && k == 0) {
-			r = min(r, recursion(x, !k));
-		}
-	}
-	return dp[v][k] = r;
-}
 
 void solve(int input)
 {
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
-	d.clear();
-	adj.clear();
 	cin >> n;
-	adj.resize(n + 1);
-	d.assign(n + 1, INF);
-	int m;
-	memset(dp, -1, sizeof(dp));
-	cin >> m;
-	for (int i = 0; i < m; i++) {
-		int x, y;
-		cin >> x >> y;
-		adj[x].pb(y);
+	int *a = new int[n];
+	for (int i = 0; i < n; i++)cin >> a[i];
+	if (n == 1 || n == 2) {
+		cout << "0" << line; R;
 	}
-	queue<int> q;
-	q.push(1);
-	d[1] = 0;
-	while (!q.empty()) {
-		int v = q.front();
-		q.pop();
-		for (int x : adj[v]) {
-			if (d[x] > d[v] + 1) {
-				d[x] = d[v] + 1;
-				q.push(x);
-			}
+	int ans = 0;
+	int s[n] = {0};
+	for (int i = 1; i < n ; i++) {
+		if (i + 1 < n && a[i] > a[i + 1] && a[i] > a[i - 1]) {
+			s[i] = 1;
+			ans++;
+		}
+		if (i + 1 < n && a[i] < a[i - 1] && a[i] < a[i + 1]) {
+			s[i] = 1;
+			ans++;
 		}
 	}
+	if (ans == 0) {
+		cout << "0" << line; R;
+	}
+	cout << ans << line;
+	int realans = ans;
+	for (int i = 1; i < n - 1; i++) {
+		if (s[i] == 1 && s[i - 1] != 1 && s[i + 1] != 1) {
+			realans = min(realans, ans - 1);
+		}
+		if (s[i] == 1 && s[i + 1]  == 1) {
 
-	cout << "0 ";
-	for (int i = 2 ; i <= n; i++)cout << recursion(i, 0) << " ";
-	cout << line;
+			realans = min(realans, ans - 2);
+		}
+	}
+	cout << max(realans, 0LL) << line;
+
 }
 
 signed main()

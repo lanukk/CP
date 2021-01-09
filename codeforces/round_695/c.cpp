@@ -51,65 +51,23 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 */
 
 V<V<int> > adj;
-V<int> d;
 //#define int                long long int
-const int INF = 1e9;
 
-int dp[200010][2];
-
-int recursion(int v, bool k) {
-	//cout << v << line;
-	if (adj[v].size() == 0)
-		return d[v];
-	if (v == 1)
-		return 0;
-	int r = d[v];
-	if (dp[v][k] != -1)return dp[v][k];
-	for (int x : adj[v]) {
-		if (d[x] > d[v])
-			r = min(r, recursion(x, k));
-		if (d[x] <= d[v] && k == 0) {
-			r = min(r, recursion(x, !k));
-		}
-	}
-	return dp[v][k] = r;
+int randNo(int lower_limit, int upper_limit) {
+	return lower_limit + rng() % (upper_limit - lower_limit);
 }
+int N = 15;
 
 void solve(int input)
 {
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
-	d.clear();
-	adj.clear();
-	cin >> n;
-	adj.resize(n + 1);
-	d.assign(n + 1, INF);
-	int m;
-	memset(dp, -1, sizeof(dp));
-	cin >> m;
-	for (int i = 0; i < m; i++) {
-		int x, y;
-		cin >> x >> y;
-		adj[x].pb(y);
-	}
-	queue<int> q;
-	q.push(1);
-	d[1] = 0;
-	while (!q.empty()) {
-		int v = q.front();
-		q.pop();
-		for (int x : adj[v]) {
-			if (d[x] > d[v] + 1) {
-				d[x] = d[v] + 1;
-				q.push(x);
-			}
-		}
-	}
-
-	cout << "0 ";
-	for (int i = 2 ; i <= n; i++)cout << recursion(i, 0) << " ";
-	cout << line;
+	n = randNo(1, 10);
+	int a[n];
+	for (int i = 0; i < n; i++) a[i] = randNo(1, N);
+	cout << n << line;
+	for (int i = 0 ; i < n; i++)cout << a[i] << " ";
 }
 
 signed main()
@@ -117,7 +75,7 @@ signed main()
 	ios_base::sync_with_stdio(false);
 	cin.tie(0); cout.tie(0);
 	int x = 1;
-	cin >> x;
+	//cin>>x;
 	for (int i = 1; i <= x; i++)
 		solve(i);
 	return 0;

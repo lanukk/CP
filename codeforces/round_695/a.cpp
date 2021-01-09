@@ -51,64 +51,28 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 */
 
 V<V<int> > adj;
-V<int> d;
 //#define int                long long int
-const int INF = 1e9;
 
-int dp[200010][2];
-
-int recursion(int v, bool k) {
-	//cout << v << line;
-	if (adj[v].size() == 0)
-		return d[v];
-	if (v == 1)
-		return 0;
-	int r = d[v];
-	if (dp[v][k] != -1)return dp[v][k];
-	for (int x : adj[v]) {
-		if (d[x] > d[v])
-			r = min(r, recursion(x, k));
-		if (d[x] <= d[v] && k == 0) {
-			r = min(r, recursion(x, !k));
-		}
-	}
-	return dp[v][k] = r;
-}
 
 void solve(int input)
 {
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
-	d.clear();
-	adj.clear();
 	cin >> n;
-	adj.resize(n + 1);
-	d.assign(n + 1, INF);
-	int m;
-	memset(dp, -1, sizeof(dp));
-	cin >> m;
-	for (int i = 0; i < m; i++) {
-		int x, y;
-		cin >> x >> y;
-		adj[x].pb(y);
-	}
-	queue<int> q;
-	q.push(1);
-	d[1] = 0;
-	while (!q.empty()) {
-		int v = q.front();
-		q.pop();
-		for (int x : adj[v]) {
-			if (d[x] > d[v] + 1) {
-				d[x] = d[v] + 1;
-				q.push(x);
-			}
+	if (n == 1)cout << "9";
+	else if (n == 2)cout << "98";
+	else {
+		cout << "98";
+		int a[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+		int k = 9;
+		for (int i = 1 ; i <= n - 2 ; i++) {
+
+			cout << a[k];
+			k++;
+			k = k % 10;
 		}
 	}
-
-	cout << "0 ";
-	for (int i = 2 ; i <= n; i++)cout << recursion(i, 0) << " ";
 	cout << line;
 }
 
