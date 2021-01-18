@@ -1,0 +1,31 @@
+<snippet>
+	<content><![CDATA[
+#include <bits/stdc++.h>
+
+using namespace std;
+
+const int N = 100005;
+mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+int randNo(int lower_limit, int upper_limit) {
+
+	return lower_limit + rng() % (upper_limit - lower_limit);
+}
+int32_t main() {
+
+	//generating n
+	int n = randNo(1, 100);
+
+	//To generate a random array
+	int a[n];
+	for (int i = 0; i < n; i++) a[i] = randNo(1, N);
+	for (int i = 0; i < n; i++) {
+		cout << a[i] << " ";
+	}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>zzfastpower</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

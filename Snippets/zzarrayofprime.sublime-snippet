@@ -1,0 +1,28 @@
+<snippet>
+	<content><![CDATA[
+#define MAX 10000007
+vector<int> prime;
+bool nprime[MAX+6];
+void sieve()
+{
+    memset(nprime,false,sizeof nprime);
+   // cout<<"memset finished"<<endl;
+    for(int i = 2;i<=10005;i++)
+    {
+        if(!nprime[i])
+        {
+            for(int j = i*i;j<=MAX;j+=i)
+                nprime[j] = true;
+        }
+    }
+    for(int i = 2;i<=MAX;i++)
+        if(!nprime[i])prime.pb(i);
+    return;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>zzarrayofprime</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
