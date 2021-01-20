@@ -20,7 +20,7 @@ using namespace std;
 #define fr(a,b,c)          for(int i = a; i >=b ; i = i - c)
 
 //trace
-#define tracegraph(v) 	   cout<<#v<<line;int iiii=0;for(auto &x : v){cout<<iiii<<"-> ";for(auto &xx : x)cout<<xx<<" ";cout<<endl;iiii++;}cout<<"---------------"<<line;
+#define tracegraph(v) 	   cout<<#v<<line;int iiii=1;for(auto &x : v){cout<<iiii<<"-> ";for(auto &xx : x)cout<<xx<<" ";cout<<endl;iiii++;}cout<<"---------------"<<line;
 #define traceset(s)        cout<<#s<<line;for(auto &x: s)cout<<x<<space;cout<<"---------------"<<line;
 #define tracevector(v)     cout<<#v<<line;for(auto &x: v)cout<<x<<" ";cout<<line;cout<<"---------------"<<line;
 #define tracemap(mp)       cout<<#mp<<line;for(auto &x: mp){cout<<x.fi<<" "<<x.se<<line;}cout<<"---------------"<<line;
@@ -51,68 +51,53 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 */
 
 V<V<int> > adj;
-V<int> color;
-V<int> ans;
 //#define int                long long int
-bool f = 0;
-bool r = 0 ;
-int root = -1;
-bool major = 0;
-void dfs(int v, int parent) {
-	color[v] = 1; //cout << "?";
-	//trace2(v, parent);
-	if (major)return;
-	for (int x : adj[v]) {
-		if (major)return;
-		if (color[x] == 1 && x != parent && parent != -1) {
-			f = 1 ;
-			ans.pb(x);
-			ans.pb(v);
-			ans.pb(parent);
-			return;
-		}	if (major)return;
-		if (color[x] == 0 && f == 0) {
-			dfs(x, v);
-		}
-		if (major)return;
-		if (f && major == 0) {
-			if (parent == ans[0]) {
-				major = 1;
-			}
-			ans.pb(parent);
-			return;
-		}
-	}
-	if (major)return;
-	color[v] = 2;
-}
+
+
 void solve(int input)
 {
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
-	cin >> n;
-	adj.resize(n + 1);
-	color.assign(n + 1, 0);
-	int m;
-	cin >> m;
-	int x, y;
-	for (int i = 0; i < m; i++) {
-		cin >> x >> y;
-		adj[x].pb(y);
-		adj[y].pb(x);
+	string a, b;
+	cin >> n >> b;
+	a = "";
+	for (int i = 0 ; i < n; i++) {
+		a = a + '0';
 	}
-	// tracegraph(adj);
-	// dfs(1, -1);
-	for (int i = 1; i <= n; i++) {
-		if (color[i] == 0) {
-			dfs(i, -1);
-			if (f)break;
+	a[0] = '1';
+	for (int i = 1; i < n; i++) {
+		if (b[i] == '1') {
+			if (a[i - 1] == '1' && b[i - 1] == '1') {
+				a[i] = '0';
+			}
+			else if (a[i - 1] == '1' && b[i - 1] == '0') {
+				a[i] = '1';
+			}
+			else if (a[i - 1] == '0' && b[i - 1] == '0') {
+				a[i] = '1';
+			}
+			else if (a[i - 1] == '0' && b[i - 1] == '1') {
+				a[i] = '1';
+			}
+		}
+		else {
+			if (a[i - 1] == '1' && b[i - 1] == '1') {
+				a[i] = '1';
+			}
+			else if (a[i - 1] == '1' && b[i - 1] == '0') {
+				a[i] = '0';
+			}
+			else if (a[i - 1] == '0' && b[i - 1] == '0') {
+				a[i] = '1';
+			}
+			else if (a[i - 1] == '0' && b[i - 1] == '1') {
+				a[i] = '0';
+			}
 		}
 	}
-	if (!f)cout << "IMPOSSIBLE";
-	else
-	{cout << ans.size() << line; cout << ans;}
+	cout << a << line;
+
 
 }
 
@@ -121,7 +106,7 @@ signed main()
 	ios_base::sync_with_stdio(false);
 	cin.tie(0); cout.tie(0);
 	int x = 1;
-	//cin>>x;
+	cin >> x;
 	for (int i = 1; i <= x; i++)
 		solve(i);
 	return 0;
