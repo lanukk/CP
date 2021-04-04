@@ -59,66 +59,52 @@ void solve(int input)
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
-	int k;
-	cin >> k;
-	string s;
-	cin >> s;
-	n = s.length();
-	map<char, bool> mp;
-	for (int  i = 0 ; i < n; i++)mp[s[i]] = 1;
-
-	int mid ;
-	if (n % 2 == 0) {
-		mid = (n / 2) - 1;
+	int m;
+	cin >> n >> m;
+	char a[n][m];
+	for (int i = 0 ; i < n; i++)for (int j = 0 ; j < m; j++)cin >> a[i][j];
+	char extend[3 * n ][3 * m ];
+	bool e[3 * n ][3 * m ] ;
+	for (int i = 0 ; i < 3 * n; i++) {
+		for (int j = 0 ; j < 3 * m; j++)
+			e[i][j] = 0;
 	}
-	else {
-		mid = n / 2 ;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			extend[3 * i][3 * j] = a[i][j];
+			extend[3 * i][3 * j + 1] = a[i][j];
+			extend[3 * i][3 * j + 2] = a[i][j];
+			extend[3 * i + 1][3 * j] = a[i][j];
+			extend[3 * i + 1][3 * j + 1] = a[i][j];
+			extend[3 * i + 1][3 * j + 2] = a[i][j];
+			extend[3 * i + 2][3 * j ] = a[i][j];
+			extend[3 * i + 2][3 * j + 1] = a[i][j];
+			extend[3 * i + 2][3 * j + 2] = a[i][j];
+		}
 	}
 
-	for (int i = mid ; i >= 0 ; i --) {
-		if (s[i] != s[n - 1 - i]) {
-			if (s[i] != '?' && s[n - 1 - i] != '?') {
-				cout << "IMPOSSIBLE";
-				return;
-			}
-			else if (s[i] == '?' && s[n - 1 - i] != '?') {
-				s[i] = s[n - 1 - i];
-			}
-			else {
-				s[n - 1 - i] = s[i];
+	for (int i = 0 ; i < 3 * n; i++) {
+		for (int j = 0 ; j < 3 * m; j++) {
+			if (extend[i][j] == '.')
+				continue;
+			if (extend[i][j - 1] == '.' || extend[i][j + 1] == '.' || extend[i - 1][j] == '.' || extend[i + 1][j] == '.' || extend[i - 1][j - 1] == '.' || extend[i - 1][j + 1] == '.'
+			        || extend[i + 1][j - 1] == '.' || extend[i + 1][j + 1] == '.') {
+				e[i][j] = 1;
 			}
 		}
-		else if (s[i] == '?' && s[n - 1 - i] == '?') {
-			char c = 'a';
-			for (int j = k - 1; j >= 0; j--) {
-				c = 'a' + j;
-				if (mp.find(c) == mp.end()) {
-					mp[c] = 1;
-					break;
+	}
+	int ans = 0 ;
+	for (int i = 0 ; i < 3 * n; i++) {
+		for (int j = 0 ; j < 3 * m; j++) {
+			if (e[i][j]) {
+				if ((e[i - 1][j] && e[i][j - 1]) || (e[i][j - 1] && e[i + 1][j]) || (e[i + 1][j] && e[i][j + 1]) || (e[i][j + 1] && e[i - 1][j]) ) {
+					ans++;
 				}
 			}
-			s[i] = c;
-			s[n - 1 - i] = c;
 		}
 	}
+	cout << ans;
 
-	int a[26] = {0};
-	for (int i = 0 ; i < n; i++) {
-		a[s[i] - 'a']++;
-	}
-	for (int i = k; i < 26; i++) {
-		if (a[i]) {
-			cout << "IMPOSSIBLE";
-			return;
-		}
-	}
-	for (int i  = 0; i < k ; i++) {
-		if (!a[i]) {
-			cout << "IMPOSSIBLE";
-			return;
-		}
-	}
-	cout << s;
 }
 
 signed main()

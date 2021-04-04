@@ -1,0 +1,23 @@
+<snippet>
+	<content><![CDATA[
+		
+string decimaltobinary(int n)
+{
+	// Size of an integer is assumed to be 32 bits
+	string ans = "";
+	for (int i = 31; i >= 0; i--) {
+		int k = n >> i;
+		if (k & 1)
+			ans += "1";
+		else
+			ans += "0";
+	}
+	return ans;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>zzdecimaltobinary</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

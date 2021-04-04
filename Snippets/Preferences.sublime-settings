@@ -1,0 +1,9 @@
+{
+	"font_face": "Source Code Pro Black",
+	"font_size": 11,
+	"ignored_packages":
+	[
+		"Vintage"
+	],
+	"theme": "Default.sublime-theme"
+}

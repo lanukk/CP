@@ -1,0 +1,29 @@
+<snippet>
+	<content><![CDATA[
+
+const int PRIME_MAX = 10000007;
+vector<int> prime;
+bool nprime[PRIME_MAX + 6];
+
+void sieve()
+{
+    memset(nprime, false, sizeof nprime);
+    for (int i = 2; i <= 10005; i++)
+    {
+        if (!nprime[i])
+        {
+            for (int j = i * i; j <= PRIME_MAX; j += i)
+                nprime[j] = true;
+        }
+    }
+    for (int i = 2; i <= PRIME_MAX; i++)
+        if (!nprime[i])prime.push_back(i);
+
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>zzsieveoferatosthenes</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

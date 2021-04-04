@@ -58,67 +58,38 @@ void solve(int input)
 {
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
-	int n;
-	int k;
-	cin >> k;
-	string s;
-	cin >> s;
-	n = s.length();
-	map<char, bool> mp;
-	for (int  i = 0 ; i < n; i++)mp[s[i]] = 1;
+	int n1, n2, n3, n4;
+	cin >> n1 >> n2 >> n3 >> n4;
+	vector<pair<int, int> > a(n1), b(n2), c(n3), d(n4);
+	int x;
+	for (int i = 0 ;  i < n1; i++)cin >> x, a[i] = {x, i};
+	for (int i = 0 ;  i < n2; i++)cin >> x, b[i] = {x, i};
+	for (int i = 0 ;  i < n2; i++)cin >> x, c[i] = {x, i};
+	for (int i = 0 ;  i < n4; i++)cin >> x, d[i] = {x, i};
+	map<pair<int, int>, bool> m1, m2, m3;
+	int z;
+	cin >> z;
+	int y;
+	for (int i = 0 ; i < z; i++)cin >> x >> y, m1[ {x, y}] = 1;
+	cin >> z;
+	for (int i = 0 ; i < z; i++)cin >> x >> y, m2[ {x, y}] = 1;
+	cin >> z;
+	for (int i = 0 ; i < z; i++)cin >> x >> y, m3[ {x, y}] = 1;
+	sort(all(a));
+	sort(all(b));
+	sort(all(c));
+	sort(all(d));
+	int ans = INT_MAX;
+	int i = 0, j = 0, k = 0, l = 0;
+	while (i < n1 && j < n2 && k < n3 && l < n4) {
+		if (m1[ {a[i].second, b[i].second}]) {
+			if (i + 1 < n1 && j + 1 < n2) {
+				if (m1[ {a[i + 1].second, b[j].second}] == 0) {
 
-	int mid ;
-	if (n % 2 == 0) {
-		mid = (n / 2) - 1;
-	}
-	else {
-		mid = n / 2 ;
-	}
-
-	for (int i = mid ; i >= 0 ; i --) {
-		if (s[i] != s[n - 1 - i]) {
-			if (s[i] != '?' && s[n - 1 - i] != '?') {
-				cout << "IMPOSSIBLE";
-				return;
-			}
-			else if (s[i] == '?' && s[n - 1 - i] != '?') {
-				s[i] = s[n - 1 - i];
-			}
-			else {
-				s[n - 1 - i] = s[i];
-			}
-		}
-		else if (s[i] == '?' && s[n - 1 - i] == '?') {
-			char c = 'a';
-			for (int j = k - 1; j >= 0; j--) {
-				c = 'a' + j;
-				if (mp.find(c) == mp.end()) {
-					mp[c] = 1;
-					break;
 				}
 			}
-			s[i] = c;
-			s[n - 1 - i] = c;
 		}
 	}
-
-	int a[26] = {0};
-	for (int i = 0 ; i < n; i++) {
-		a[s[i] - 'a']++;
-	}
-	for (int i = k; i < 26; i++) {
-		if (a[i]) {
-			cout << "IMPOSSIBLE";
-			return;
-		}
-	}
-	for (int i  = 0; i < k ; i++) {
-		if (!a[i]) {
-			cout << "IMPOSSIBLE";
-			return;
-		}
-	}
-	cout << s;
 }
 
 signed main()

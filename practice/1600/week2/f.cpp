@@ -53,72 +53,26 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 V<V<int> > adj;
 //#define int                long long int
 
+const int mod = 998244353 ;
 
 void solve(int input)
 {
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
-	int k;
-	cin >> k;
-	string s;
-	cin >> s;
-	n = s.length();
-	map<char, bool> mp;
-	for (int  i = 0 ; i < n; i++)mp[s[i]] = 1;
+	int dp[200005];
+	dp[1] = 1;
+	dp[2] = 1;
+	dp[3] = 2;
+	cin >> n;
+	for (int i = 2; i <= n; i++) {
+		dp[i] = (dp[i - 1] - 1) + (dp[i - 1] - 1) + 1;
+		if (i % 2 == 1)
+			dp[i]++;
 
-	int mid ;
-	if (n % 2 == 0) {
-		mid = (n / 2) - 1;
 	}
-	else {
-		mid = n / 2 ;
-	}
+	cout << dp[n];
 
-	for (int i = mid ; i >= 0 ; i --) {
-		if (s[i] != s[n - 1 - i]) {
-			if (s[i] != '?' && s[n - 1 - i] != '?') {
-				cout << "IMPOSSIBLE";
-				return;
-			}
-			else if (s[i] == '?' && s[n - 1 - i] != '?') {
-				s[i] = s[n - 1 - i];
-			}
-			else {
-				s[n - 1 - i] = s[i];
-			}
-		}
-		else if (s[i] == '?' && s[n - 1 - i] == '?') {
-			char c = 'a';
-			for (int j = k - 1; j >= 0; j--) {
-				c = 'a' + j;
-				if (mp.find(c) == mp.end()) {
-					mp[c] = 1;
-					break;
-				}
-			}
-			s[i] = c;
-			s[n - 1 - i] = c;
-		}
-	}
-
-	int a[26] = {0};
-	for (int i = 0 ; i < n; i++) {
-		a[s[i] - 'a']++;
-	}
-	for (int i = k; i < 26; i++) {
-		if (a[i]) {
-			cout << "IMPOSSIBLE";
-			return;
-		}
-	}
-	for (int i  = 0; i < k ; i++) {
-		if (!a[i]) {
-			cout << "IMPOSSIBLE";
-			return;
-		}
-	}
-	cout << s;
 }
 
 signed main()

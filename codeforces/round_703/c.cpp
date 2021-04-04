@@ -53,78 +53,101 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 V<V<int> > adj;
 //#define int                long long int
 
+int ask(int l, int r) {
+	int x;
+	cout << "? " << l << " " << r << line;
+	cin >> x;
+	return x;
+}
 
 void solve(int input)
 {
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
-	int k;
-	cin >> k;
-	string s;
-	cin >> s;
-	n = s.length();
-	map<char, bool> mp;
-	for (int  i = 0 ; i < n; i++)mp[s[i]] = 1;
+	cin >> n;
+	int l = 1;
+	int r = n;
+	map<pair<int, int>, int> mp;
 
-	int mid ;
-	if (n % 2 == 0) {
-		mid = (n / 2) - 1;
+	int x = ask(l, r);
+	mp[ {l, r}] = x;
+	if (x == 1) {
+		l = 2;
+		r = n;
+		int indx = -1;
+		while (l <= r) {
+			int mid = (r + l) / 2;
+
+			int z = mp[ {x, mid}];
+			if (!z) {
+				z = ask(x, mid);
+				mp[ {x, mid}] = z;
+			}
+			if (z == x) {
+				indx = mid;
+				r = mid - 1;
+			}
+			else
+				l = mid + 1;
+		}
+		cout << "! " << indx << line;
 	}
 	else {
-		mid = n / 2 ;
-	}
-
-	for (int i = mid ; i >= 0 ; i --) {
-		if (s[i] != s[n - 1 - i]) {
-			if (s[i] != '?' && s[n - 1 - i] != '?') {
-				cout << "IMPOSSIBLE";
-				return;
-			}
-			else if (s[i] == '?' && s[n - 1 - i] != '?') {
-				s[i] = s[n - 1 - i];
-			}
-			else {
-				s[n - 1 - i] = s[i];
-			}
+		int y = mp[ {1, x}];
+		if (!y) {
+			y = ask(1, x);
+			mp[ {1, x}] = y;
 		}
-		else if (s[i] == '?' && s[n - 1 - i] == '?') {
-			char c = 'a';
-			for (int j = k - 1; j >= 0; j--) {
-				c = 'a' + j;
-				if (mp.find(c) == mp.end()) {
-					mp[c] = 1;
-					break;
+		if (y == x) {
+			l = 1;
+			r = x - 1;
+			int indx = -1;
+			while (l <= r) {
+				int mid = (r + l) / 2;
+				int z = mp[ {mid, x}];
+				if (!z) {
+					z = ask(mid, x);
+					mp[ {mid, x}] = z;
+				}
+				if (z == x) {
+					indx = mid;
+					l = mid + 1;
+				}
+				else {
+					r = mid - 1;
 				}
 			}
-			s[i] = c;
-			s[n - 1 - i] = c;
+			cout << "! " << indx << line;
 		}
-	}
+		else {
+			l = x + 1;
+			r = n;
+			int indx = -1;
+			while (l <= r) {
+				int mid = (r + l) / 2;
+				int z = mp[ {x, mid}];
 
-	int a[26] = {0};
-	for (int i = 0 ; i < n; i++) {
-		a[s[i] - 'a']++;
-	}
-	for (int i = k; i < 26; i++) {
-		if (a[i]) {
-			cout << "IMPOSSIBLE";
-			return;
+				if (!z) {
+					z = ask(x, mid);
+					mp[ {x, mid}] = z;
+				}
+				if (z == x) {
+					indx = mid;
+					r = mid - 1;
+				}
+				else
+					l = mid + 1;
+			}
+			cout << "! " << indx << line;
 		}
 	}
-	for (int i  = 0; i < k ; i++) {
-		if (!a[i]) {
-			cout << "IMPOSSIBLE";
-			return;
-		}
-	}
-	cout << s;
 }
 
 signed main()
 {
-	ios_base::sync_with_stdio(false);
-	cin.tie(0); cout.tie(0);
+	// ios_base::sync_with_stdio(false);
+	// cin.tie(0); cout.tie(0);
 	int x = 1;
 	//cin>>x;
 	for (int i = 1; i <= x; i++)

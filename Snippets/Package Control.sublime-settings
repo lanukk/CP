@@ -1,0 +1,19 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"1337 Color Scheme",
+		"CppFastOlympicCoding",
+		"FastOlympicCodingHook",
+		"Git",
+		"Package Control",
+		"SublimeAStyleFormatter"
+	],
+	"repositories":
+	[
+		"https://github.com/DrSwad/FastOlympicCodingHook"
+	]
+}

@@ -10,14 +10,10 @@ using namespace std;
 #define line               "\n"
 #define space              " "
 #define all(x)             x.begin(),x.end()
-#define V 				   vector
-#define M 				   map
 #define ll                 long long
 #define fi                 first
 #define se                 second
 #define print(i,ans)       cout<<"Case #"<<i<<": "<<ans<<line
-#define f(a,b,c)           for(int i = a; i < b ;i+=c)
-#define fr(a,b,c)          for(int i = a; i >=b ; i = i - c)
 
 //trace
 #define tracegraph(v) 	   cout<<#v<<line;int iiii=1;for(auto &x : v){cout<<iiii<<"-> ";for(auto &xx : x)cout<<xx<<" ";cout<<endl;iiii++;}cout<<"---------------"<<line;
@@ -50,7 +46,9 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 	* Never Think of BINARY SEARCH (NEVER EVER)
 */
 
-V<V<int> > adj;
+vector<vector<int> > adj;
+int e1, e2;
+int N, M;
 //#define int                long long int
 
 
@@ -58,67 +56,22 @@ void solve(int input)
 {
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
-	int n;
-	int k;
-	cin >> k;
-	string s;
-	cin >> s;
-	n = s.length();
-	map<char, bool> mp;
-	for (int  i = 0 ; i < n; i++)mp[s[i]] = 1;
+	long long int  n;
+	cin >> n;
 
-	int mid ;
-	if (n % 2 == 0) {
-		mid = (n / 2) - 1;
-	}
-	else {
-		mid = n / 2 ;
+	int s = (n * (n + 1) / 2);
+	if (s & 1) {
+		cout << "NO";
+		return;
 	}
 
-	for (int i = mid ; i >= 0 ; i --) {
-		if (s[i] != s[n - 1 - i]) {
-			if (s[i] != '?' && s[n - 1 - i] != '?') {
-				cout << "IMPOSSIBLE";
-				return;
-			}
-			else if (s[i] == '?' && s[n - 1 - i] != '?') {
-				s[i] = s[n - 1 - i];
-			}
-			else {
-				s[n - 1 - i] = s[i];
-			}
-		}
-		else if (s[i] == '?' && s[n - 1 - i] == '?') {
-			char c = 'a';
-			for (int j = k - 1; j >= 0; j--) {
-				c = 'a' + j;
-				if (mp.find(c) == mp.end()) {
-					mp[c] = 1;
-					break;
-				}
-			}
-			s[i] = c;
-			s[n - 1 - i] = c;
-		}
+	vector<int>v(n + 1);
+	for (int i = 1; i <= n; i++) {
+		v[i] = i;
 	}
+	vector<int>ans1;
+	while(s )
 
-	int a[26] = {0};
-	for (int i = 0 ; i < n; i++) {
-		a[s[i] - 'a']++;
-	}
-	for (int i = k; i < 26; i++) {
-		if (a[i]) {
-			cout << "IMPOSSIBLE";
-			return;
-		}
-	}
-	for (int i  = 0; i < k ; i++) {
-		if (!a[i]) {
-			cout << "IMPOSSIBLE";
-			return;
-		}
-	}
-	cout << s;
 }
 
 signed main()

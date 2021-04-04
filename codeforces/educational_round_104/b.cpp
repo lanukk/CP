@@ -51,7 +51,7 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 */
 
 V<V<int> > adj;
-//#define int                long long int
+#define int                long long int
 
 
 void solve(int input)
@@ -59,66 +59,26 @@ void solve(int input)
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
 	int n;
+	cin >> n;
 	int k;
 	cin >> k;
-	string s;
-	cin >> s;
-	n = s.length();
-	map<char, bool> mp;
-	for (int  i = 0 ; i < n; i++)mp[s[i]] = 1;
 
-	int mid ;
-	if (n % 2 == 0) {
-		mid = (n / 2) - 1;
+	if (n & 1) {
+		int steps = k;
+		int x = (k - 1) / ((n) / 2);
+		int pos = (x + steps) % n;
+		if (pos == 0) {
+			pos = n;
+		}
+		cout << pos  << line;
 	}
 	else {
-		mid = n / 2 ;
+		int pos = k % n;
+		if (pos == 0)
+			pos = n;
+		cout << pos << line;
 	}
 
-	for (int i = mid ; i >= 0 ; i --) {
-		if (s[i] != s[n - 1 - i]) {
-			if (s[i] != '?' && s[n - 1 - i] != '?') {
-				cout << "IMPOSSIBLE";
-				return;
-			}
-			else if (s[i] == '?' && s[n - 1 - i] != '?') {
-				s[i] = s[n - 1 - i];
-			}
-			else {
-				s[n - 1 - i] = s[i];
-			}
-		}
-		else if (s[i] == '?' && s[n - 1 - i] == '?') {
-			char c = 'a';
-			for (int j = k - 1; j >= 0; j--) {
-				c = 'a' + j;
-				if (mp.find(c) == mp.end()) {
-					mp[c] = 1;
-					break;
-				}
-			}
-			s[i] = c;
-			s[n - 1 - i] = c;
-		}
-	}
-
-	int a[26] = {0};
-	for (int i = 0 ; i < n; i++) {
-		a[s[i] - 'a']++;
-	}
-	for (int i = k; i < 26; i++) {
-		if (a[i]) {
-			cout << "IMPOSSIBLE";
-			return;
-		}
-	}
-	for (int i  = 0; i < k ; i++) {
-		if (!a[i]) {
-			cout << "IMPOSSIBLE";
-			return;
-		}
-	}
-	cout << s;
 }
 
 signed main()
@@ -126,7 +86,7 @@ signed main()
 	ios_base::sync_with_stdio(false);
 	cin.tie(0); cout.tie(0);
 	int x = 1;
-	//cin>>x;
+	cin >> x;
 	for (int i = 1; i <= x; i++)
 		solve(i);
 	return 0;

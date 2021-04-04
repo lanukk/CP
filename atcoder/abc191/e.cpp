@@ -50,75 +50,54 @@ template <typename T> T MAX(T first) { return first; } template <typename T, typ
 	* Never Think of BINARY SEARCH (NEVER EVER)
 */
 
-V<V<int> > adj;
-//#define int                long long int
+V<V<pair<int, int>> > adj;
+int n, m;
+#define int                long long int
+vector< int>ans;
+void dijkstra(int s) {
+	priority_queue<pair<int, int>,
+	               vector<pair<int, int> > ,
+	               greater<pair<int, int> > > q;
+	q.push({0, s});
+	vector<int>dis(n + 1, 1e9);
+	dis[s] = 0;
+	while (!q.empty()) {
+		int v = q.top().second;
+		int d = q.top().first;
+		q.pop();
 
+		for (auto x : adj[v]) {
+			if (x.first == s) {
+				ans[s] = (ans[s] == -1) ? d + x.second : min(d + x.second, ans[s]);
+			}
+			if (dis[x.first] > dis[v] + x.second) {
+				dis[x.first] = dis[v] + x.second;
+				q.push({dis[x.first], x.first});
+			}
+		}
+	}
+}
 
 void solve(int input)
 {
 	// read problem C if stuck on B for longer than 20 mins!!
 	// Never Think of BINARY SEARCH (NEVER EVER)
-	int n;
-	int k;
-	cin >> k;
-	string s;
-	cin >> s;
-	n = s.length();
-	map<char, bool> mp;
-	for (int  i = 0 ; i < n; i++)mp[s[i]] = 1;
-
-	int mid ;
-	if (n % 2 == 0) {
-		mid = (n / 2) - 1;
-	}
-	else {
-		mid = n / 2 ;
+	cin >> n;
+	cin >> m;
+	adj.resize(n + 1);
+	int x, y, z;
+	for (int i = 0 ; i < m; i++) {
+		cin >> x >> y >> z;
+		adj[x].push_back({y, z});
 	}
 
-	for (int i = mid ; i >= 0 ; i --) {
-		if (s[i] != s[n - 1 - i]) {
-			if (s[i] != '?' && s[n - 1 - i] != '?') {
-				cout << "IMPOSSIBLE";
-				return;
-			}
-			else if (s[i] == '?' && s[n - 1 - i] != '?') {
-				s[i] = s[n - 1 - i];
-			}
-			else {
-				s[n - 1 - i] = s[i];
-			}
-		}
-		else if (s[i] == '?' && s[n - 1 - i] == '?') {
-			char c = 'a';
-			for (int j = k - 1; j >= 0; j--) {
-				c = 'a' + j;
-				if (mp.find(c) == mp.end()) {
-					mp[c] = 1;
-					break;
-				}
-			}
-			s[i] = c;
-			s[n - 1 - i] = c;
-		}
+	ans.assign(n + 1, -1);
+	for (int i = 1; i <= n; i++) {
+		dijkstra(i);
 	}
-
-	int a[26] = {0};
-	for (int i = 0 ; i < n; i++) {
-		a[s[i] - 'a']++;
+	for (int i = 1; i <= n; i++) {
+		cout << ans[i] << line;
 	}
-	for (int i = k; i < 26; i++) {
-		if (a[i]) {
-			cout << "IMPOSSIBLE";
-			return;
-		}
-	}
-	for (int i  = 0; i < k ; i++) {
-		if (!a[i]) {
-			cout << "IMPOSSIBLE";
-			return;
-		}
-	}
-	cout << s;
 }
 
 signed main()

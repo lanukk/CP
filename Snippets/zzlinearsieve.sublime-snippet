@@ -1,0 +1,26 @@
+<snippet>
+	<content><![CDATA[
+
+const int PRIME_MAX = 10000000;
+int lp[PRIME_MAX + 1];
+vector<int> prime;
+
+void sieve()
+{
+	for (int i = 2; i <= PRIME_MAX; ++i) {
+		if (lp[i] == 0) {
+			lp[i] = i;
+			prime.push_back (i);
+		}
+		for (int j = 0; j < (int)prime.size() && prime[j] <= lp[i] && i * prime[j] <= PRIME_MAX; ++j)
+			lp[i * prime[j]] = prime[j];
+	}
+}
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>zzlinearsieve</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
